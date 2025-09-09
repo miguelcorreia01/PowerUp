@@ -8,11 +8,9 @@ namespace PowerUp.Models;
         public User? User { get; set; }
         public int SubscriptionId { get; set; }
         public Subscription? Subscription { get; set; }
-
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public bool IsActive { get; set; } = true;
-
          public bool IsDeleted { get; set; } = false;
         public DateTime? DeletedAt { get; set; }
 

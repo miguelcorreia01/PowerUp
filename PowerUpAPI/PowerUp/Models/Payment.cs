@@ -10,7 +10,6 @@ public class Payment
     public DateTime PaymentDate { get; set; }
     public PaymentStatus Status { get; set; }
     public string? TransactionId { get; set; }
-
     public bool IsDeleted { get; set; } = false;
     public DateTime? DeletedAt { get; set; }
 
