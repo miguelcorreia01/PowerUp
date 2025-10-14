@@ -2,10 +2,10 @@ namespace PowerUp.Models;
 
 public class UserSubscription
 {
-    public required int Id { get; set; }
+    public Guid Id { get; set; }
     public Guid UserId { get; set; }
     public User? User { get; set; }
-    public int SubscriptionId { get; set; }
+    public Guid SubscriptionId { get; set; }
     public Subscription? Subscription { get; set; }
     public DateTime StartDate { get; set; }
     public DateTime EndDate { get; set; }

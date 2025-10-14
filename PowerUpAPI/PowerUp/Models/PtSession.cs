@@ -2,7 +2,7 @@ namespace PowerUp.Models;
 
 public class PtSession
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
     public Guid InstructorId { get; set; }
     public Instructor? Instructor { get; set; }
     public Guid MemberId { get; set; }

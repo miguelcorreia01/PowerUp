@@ -3,8 +3,8 @@ namespace PowerUp.Models;
 
 public class Payment
 {
-    public int Id { get; set; }
-    public int UserSubscriptionId { get; set; }
+    public Guid Id { get; set; }
+    public Guid UserSubscriptionId { get; set; }
     public required UserSubscription UserSubscription { get; set; }
     public decimal Amount { get; set; }
     public DateTime PaymentDate { get; set; }

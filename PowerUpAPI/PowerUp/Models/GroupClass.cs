@@ -2,10 +2,13 @@ namespace PowerUp.Models;
 
 public class GroupClass
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
     public Guid InstructorId { get; set; }
     public Instructor? Instructor { get; set; }
     public GroupClassType Type { get; set; }
+
+    public required string Name { get; set; }
+    public  string Description { get; set; }
     public ICollection<Member> Members { get; set; } = new List<Member>();
     public DateTime StartTime { get; set; }
     public int MaxCapacity { get; set; }
