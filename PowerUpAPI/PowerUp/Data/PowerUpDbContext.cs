@@ -10,7 +10,6 @@ public class PowerUpDbContext : DbContext
     public DbSet<User> Users => Set<User>();
     public DbSet<Member> Members => Set<Member>();
     public DbSet<Instructor> Instructors => Set<Instructor>();
-    public DbSet<Gym> Gyms => Set<Gym>();
     public DbSet<GroupClass> GroupClasses => Set<GroupClass>();
     public DbSet<Subscription> Subscriptions => Set<Subscription>();
     public DbSet<UserSubscription> UserSubscriptions => Set<UserSubscription>();
@@ -26,32 +25,61 @@ public class PowerUpDbContext : DbContext
             .HasIndex(u => u.Email)
             .IsUnique();
 
+        // Configure decimal properties with proper precision
+        modelBuilder.Entity<Payment>()
+            .Property(p => p.Amount)
+            .HasPrecision(18, 2);
+
+        modelBuilder.Entity<PtSession>()
+            .Property(ps => ps.Price)
+            .HasPrecision(18, 2);
+
+        modelBuilder.Entity<Subscription>()
+            .Property(s => s.TotalPrice)
+            .HasPrecision(18, 2);
+
+        // Configure User-Member relationship (one-to-one)
+        modelBuilder.Entity<Member>()
+            .HasOne(m => m.User)
+            .WithOne()
+            .HasForeignKey<Member>(m => m.UserId)
+            .OnDelete(DeleteBehavior.NoAction);
+
+        // Configure User-Instructor relationship (one-to-one)
+        modelBuilder.Entity<Instructor>()
+            .HasOne(i => i.User)
+            .WithOne()
+            .HasForeignKey<Instructor>(i => i.UserId)
+            .OnDelete(DeleteBehavior.NoAction);
+
         // Configure Member-Instructor relationship
         modelBuilder.Entity<Member>()
             .HasOne(m => m.Instructor)
             .WithMany(i => i.Members)
             .HasForeignKey(m => m.InstructorId)
-            .OnDelete(DeleteBehavior.SetNull);
+            .OnDelete(DeleteBehavior.NoAction);
+
+
 
         // Configure GroupClass-Instructor relationship
         modelBuilder.Entity<GroupClass>()
             .HasOne(gc => gc.Instructor)
             .WithMany()
             .HasForeignKey(gc => gc.InstructorId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.NoAction);
 
         // Configure PtSession relationships
         modelBuilder.Entity<PtSession>()
             .HasOne(ps => ps.Instructor)
             .WithMany()
             .HasForeignKey(ps => ps.InstructorId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.NoAction);
 
         modelBuilder.Entity<PtSession>()
             .HasOne(ps => ps.Member)
             .WithMany()
             .HasForeignKey(ps => ps.MemberId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.NoAction);
 
         // Configure UserSubscription relationships
         modelBuilder.Entity<UserSubscription>()
@@ -64,7 +92,7 @@ public class PowerUpDbContext : DbContext
             .HasOne(us => us.Subscription)
             .WithMany()
             .HasForeignKey(us => us.SubscriptionId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.NoAction);
 
         // Configure Payment relationship
         modelBuilder.Entity<Payment>()
