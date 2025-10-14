@@ -1,1 +1,17 @@
 .vscode/settings.json
+PowerUpAPI/PowerUp/.env
+# Build Folders
+bin/
+obj/
+
+# Visual Studio files
+.vs/
+
+# User-specific files
+*.user
+*.suo
+
+# DLLs and other compiled binaries
+*.dll
+*.exe
+*.pdb
