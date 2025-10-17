@@ -1,0 +1,112 @@
+<app-nav></app-nav>
+<div class="dashboard">
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Welcome Section -->
+    <div class="welcome-section">
+      <h1 class="welcome-title">Welcome back, {{ userName() }}</h1>
+      <p class="welcome-subtitle">Here's what's happening with your fitness journey.</p>
+    </div>
+
+    <!-- Summary Cards -->
+    <div class="summary-cards">
+      @if (isMember()) {
+        <!-- Active Membership Card -->
+        <div class="summary-card">
+          <div class="card-header">
+            <img src="assets/images/calendar-2-line.png" class="card-icon" />
+            <h3 class="card-title">Active Membership</h3>
+          </div>
+          <div class="card-content">
+            <div class="membership-type">{{ membership().type }}</div>
+            <div class="membership-expiry">Expires in {{ membership().expiresIn }} days</div>
+            <div class="progress-bar">
+              <div class="progress-fill" [style.width.%]="membership().progress"></div>
+            </div>
+          </div>
+        </div>
+      }
+
+      <!-- Group Classes Card -->
+      <div class="summary-card">
+        <div class="card-header">
+          <img src="assets/images/team-line.png" class="card-icon" />
+          <h3 class="card-title">{{ classesCardTitle() }}</h3>
+        </div>
+        <div class="card-content">
+          <div class="card-number">{{ groupClasses().enrolled }}</div>
+          <div class="card-subtitle">Next class: {{ groupClasses().nextClass }}</div>
+        </div>
+      </div>
+
+      <!-- Personal Training Card -->
+      <div class="summary-card">
+        <div class="card-header">
+          <img src="assets/images/group-line.png" class="card-icon" />
+          <h3 class="card-title">{{ ptCardTitle() }}</h3>
+        </div>
+        <div class="card-content">
+          <div class="card-number">{{ personalTraining().booked }}</div>
+          <div class="card-subtitle">Next session: {{ personalTraining().nextSession }}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Sections -->
+    <div class="bottom-sections">
+      <!-- My Schedule -->
+      <div class="schedule-section">
+        <h2 class="section-title">My schedule</h2>
+        <div class="schedule-content">
+          @if ((todaySchedule() ?? []).length > 0) {
+            <div class="schedule-list">
+              @for (item of todaySchedule(); track item.time) {
+                <div class="schedule-item">
+                  <div class="schedule-time">{{ item.time }}</div>
+                  <div class="schedule-activity">{{ item.activity }}</div>
+                  <div class="schedule-type" [class]="'type-' + item.type">
+                    {{ labelType(item) }}
+                  </div>
+                </div>
+              }
+            </div>
+          } @else {
+            <div class="empty-state">
+              <p>No activities scheduled for today</p>
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- Today Group Classes section -->
+      @if (isMember()) {
+        <div class="group-classes-section">
+          <h2 class="section-title">Today Group Classes</h2>
+          <div class="group-classes-content">
+           @if ((todaySchedule() ?? []).length > 0) {
+              <div class="classes-list">
+                @for (classItem of todayGroupClasses(); track classItem.name) {
+                  <div class="class-item">
+                    <div class="class-time">{{ classItem.time }}</div>
+                    <div class="class-info">
+                      <div class="class-name">{{ classItem.name }}</div>
+                      <div class="class-instructor">with {{ classItem.instructor }}</div>
+                    </div>
+                    <div class="class-spots">
+                      {{ classItem.spots }}/{{ classItem.maxSpots }} spots
+                    </div>
+                  </div>
+                }
+              </div>
+            } @else {
+              <div class="empty-state">
+                <p>No group classes today</p>
+              </div>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  </main>
+</div>
