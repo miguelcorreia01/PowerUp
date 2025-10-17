@@ -25,31 +25,30 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  // --- REGISTER ---
-  register(data: { email: string; password: string; name: string; phoneNumber: string }): Observable<AuthResponse> {
-    return this.http.post<BackendAuthResponse>(`${this.baseUrl}/auth/register`, data).pipe(
-      map((res) => ({
-        token: res.Token,
-        role: res.Role,
-        name: res.Name,
-        userId: res.Id
-      })),
-      tap((res) => this.storeUser(res))
-    );
-  }
-
-  // --- LOGIN ---
-  login(data: { email: string; password: string }): Observable<AuthResponse> {
-    return this.http.post<BackendAuthResponse>(`${this.baseUrl}/auth/login`, data).pipe(
-      map((res) => ({
-        token: res.Token,
-        role: res.Role,
-        name: res.Name,
-        userId: res.Id
-      })),
-      tap((res) => this.storeUser(res))
-    );
-  }
+// --- LOGIN ---
+login(data: { email: string; password: string }): Observable<AuthResponse> {
+  return this.http.post<any>(`${this.baseUrl}/auth/login`, data).pipe(
+    map((res) => ({
+      token: res.token,
+      role: res.role,
+      name: res.name,
+      userId: res.id
+    })),
+    tap((res) => this.storeUser(res))
+  );
+}
+// --- REGISTER ---
+register(data: { email: string; password: string; name: string; phoneNumber: string }): Observable<AuthResponse> {
+  return this.http.post<any>(`${this.baseUrl}/auth/register`, data).pipe(
+    map((res) => ({
+      token: res.token,
+      role: res.role,
+      name: res.name,
+      userId: res.id
+    })),
+    tap((res) => this.storeUser(res))
+  );
+}
 
   // --- LOGOUT ---
   logout(): void {
