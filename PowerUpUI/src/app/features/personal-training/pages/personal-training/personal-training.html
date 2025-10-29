@@ -1,0 +1,84 @@
+<app-nav></app-nav>
+<section class="pt-page">
+  <header class="pt-header">
+    <div class="title-top">
+      @if(!isInstructor()) {
+        <h1>Personal Training</h1>
+      } @else {
+        <h1>Your Schedule</h1>
+      }
+    </div>
+
+    <div class="title-desc">
+      @if(!isInstructor()) {
+        <p>Select an instructor and book a session</p>
+      } @else {
+        <p>Manage your personal training sessions</p>
+      }
+    </div>
+
+    <div class="right-side">
+      @if (!isInstructor()) {
+        <div class="instructor-select">
+          <label>Instructor</label>
+          <select [(ngModel)]="selectedInstructorId"
+                  (ngModelChange)="selectedInstructorId.set($event)">
+            <option value="">Select instructor</option>
+            @for (i of instructors(); track i.id) {
+              <option [value]="i.id">{{ i.user?.name || i.id }}</option>
+            }
+          </select>
+        </div>
+      }
+      <div class="controls">
+        <button class="nav" (click)="prevWeek()" [disabled]="!canGoPrev()">&larr; Prev</button>
+        <div class="week-range">
+          {{ weekRange().start }} - {{ weekRange().end }}
+        </div>
+        <button class="nav" (click)="nextWeek()" [disabled]="!canGoNext()">
+          Next &rarr;
+        </button>
+      </div>
+    </div>
+  </header>
+
+  @if (feedback()) {
+    <div class="feedback">{{ feedback() }}</div>
+  }
+
+  <div class="grid">
+<div class="grid-head">
+  <div class="cell time-col">Time</div>
+  @for (label of getDayLabels(); track label) {
+    <div class="cell day-col">{{ label }}</div>
+  }
+</div>
+
+@for (h of hours(); track h) {
+  <div class="row">
+    <div class="cell time-col">{{ h }}:00</div>
+    @for (i of days(); track i) {
+      <div class="cell slot"
+           [class.available]="slotState(slotISO(i, h)) === 'available' && !isPastSlot(slotISO(i, h))"
+           [class.booked]="slotState(slotISO(i, h)) === 'booked'"
+           [class.mine]="slotState(slotISO(i, h)) === 'mine'"
+           [class.past]="isPastSlot(slotISO(i, h))">
+        @if (!isInstructor()) {
+          <button class="book"
+                  [disabled]="!selectedInstructorId() || slotState(slotISO(i, h)) !== 'available' || isLoading() || isPastSlot(slotISO(i, h))"
+                  (click)="book(slotISO(i, h))">
+            Book
+          </button>
+        } @else {
+          @if (slotState(slotISO(i, h)) === 'booked') {
+            <button class="cancel" [disabled]="isLoading()" (click)="cancel(slotISO(i, h))">Cancel</button>
+          } @else {
+            <span class="empty">—</span>
+          }
+        }
+      </div>
+    }
+  </div>
+}
+  </div>
+</section>
