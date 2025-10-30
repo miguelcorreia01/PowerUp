@@ -9,7 +9,7 @@ export interface GroupClass {
   type: 'Yoga' | 'Pilates' | 'Spinning' | 'Zumba' | 'Crossfit' | 'HIIT' | 'StrengthTraining' | 'Cardio' | 'Jumping' | 'ABS';
   name: string;
   description: string;
-  members: Array<{ id: string; name: string }>;
+  members: Array<{ id: string; userId: string; name:string }>;
   startTime: string;
   maxCapacity: number;
   currentEnrollment: number;
@@ -69,4 +69,12 @@ export class GroupClassService {
     
     return this.getGroupClassesForWeek(startOfDay, endOfDay);
   }
+   // Enroll in a group class
+  enroll(groupClassId: string) {
+  return this.http.post<{ message: string }>(`${this.baseUrl}/${groupClassId}/enroll`, {});
+}
+  // Unenroll from a group class
+  unenroll(groupClassId: string) {
+  return this.http.post<{ message: string }>(`${this.baseUrl}/${groupClassId}/unenroll`, {});
+}
 }
