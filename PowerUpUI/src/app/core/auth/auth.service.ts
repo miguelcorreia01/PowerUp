@@ -75,6 +75,10 @@ register(data: { email: string; password: string; name: string; phoneNumber: str
     return this.currentUserSubject.value?.role ?? null;
   }
 
+  getUserId(): string | null {
+    return this.currentUserSubject.value?.userId ?? null;
+  }
+
   isLoggedIn(): boolean {
     return !!this.getToken();
   }
