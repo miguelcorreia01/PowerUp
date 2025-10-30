@@ -1,0 +1,118 @@
+<app-nav></app-nav>
+<section class="group-classes-page">
+  <header class="gc-header">
+    <div class="title-section">
+      <h1>Group Classes</h1>
+      <p>View and manage group fitness classes</p>
+    </div>
+
+    <div class="controls">
+      @if (isInstructor()) {
+        <button class="create-btn" (click)="showCreateForm.set(true)">
+          + Create Class
+        </button>
+      }
+      
+      <div class="week-nav">
+        <button class="nav-btn" (click)="prevWeek()" [disabled]="!canGoPrev()">
+          ← Prev
+        </button>
+        <div class="week-range">{{ weekRange().start }} - {{ weekRange().end }}</div>
+        <button class="nav-btn" (click)="nextWeek()" [disabled]="!canGoNext()">
+          Next →
+        </button>
+      </div>
+    </div>
+  </header>
+
+  @if (feedback()) {
+    <div class="feedback">{{ feedback() }}</div>
+  }
+
+  <!-- Compact Calendar -->
+  <div class="compact-calendar">
+    <div class="calendar-header">
+      <div class="time-col">Time</div>
+      @for (label of dayLabels(); track label) {
+        <div class="day-col">{{ label }}</div>
+      }
+    </div>
+
+    @for (hour of hours(); track hour) {
+      <div class="calendar-row">
+        <div class="time-cell">{{ hour }}:00</div>
+        @for (dayOffset of days(); track dayOffset) {
+          <div class="slot-cell">
+            @for (gc of getClassesForSlot(dayOffset, hour); track gc.id) {
+              <div class="class-block" 
+                   [class.enrolled]="isEnrolled(gc.id)"
+                   [class.full]="gc.currentEnrollment >= gc.maxCapacity">
+                <div class="class-name">{{ gc.name }}</div>
+                <div class="class-type">{{ gc.type }}</div>
+                <div class="class-capacity">{{ gc.currentEnrollment }}/{{ gc.maxCapacity }}</div>
+                  @if (!isInstructor()) {
+                    @if (isEnrolled(gc.id)) {
+                      <button class="enroll-btn" (click)="unenroll(gc.id)">Unenroll</button>
+                    } @else if (gc.currentEnrollment < gc.maxCapacity) {
+                      <button class="enroll-btn" (click)="enroll(gc.id)">Enroll</button>
+                    }
+                  }
+              </div>
+            }
+          </div>
+        }
+      </div>
+    }
+  </div>
+
+  <!-- Create Class Modal -->
+  @if (showCreateForm()) {
+    <div class="modal-overlay" (click)="cancelCreate()">
+      <div class="modal" (click)="$event.stopPropagation()">
+        <h2>Create Group Class</h2>
+        <form (ngSubmit)="createClass()">
+          <div class="form-group">
+            <label>Class Name</label>
+            <input [(ngModel)]="createForm().name" name="name" required>
+          </div>
+          
+          <div class="form-group">
+            <label>Type</label>
+            <select [(ngModel)]="createForm().type" name="type">
+              <option value="Yoga">Yoga</option>
+              <option value="Pilates">Pilates</option>
+              <option value="Spinning">Spinning</option>
+              <option value="Zumba">Zumba</option>
+              <option value="Crossfit">Crossfit</option>
+              <option value="HIIT">HIIT</option>
+              <option value="StrengthTraining">Strength Training</option>
+              <option value="Cardio">Cardio</option>
+              <option value="Jumping">Jumping</option>
+              <option value="ABS">ABS</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label>Description</label>
+            <textarea [(ngModel)]="createForm().description" name="description"></textarea>
+          </div>
+          
+          <div class="form-group">
+            <label>Start Time</label>
+            <input type="datetime-local" [(ngModel)]="createForm().startTime" name="startTime" required>
+          </div>
+          
+          <div class="form-group">
+            <label>Max Capacity</label>
+            <input type="number" [(ngModel)]="createForm().maxCapacity" name="maxCapacity" min="1" max="50" required>
+          </div>
+          
+          <div class="form-actions">
+            <button type="button" (click)="cancelCreate()">Cancel</button>
+            <button type="submit">Create Class</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  }
+</section>

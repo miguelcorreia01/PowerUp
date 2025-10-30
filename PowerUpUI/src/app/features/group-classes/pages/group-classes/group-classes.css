@@ -1,0 +1,274 @@
+.group-classes-page {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.gc-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.title-section h1 {
+  margin: 0;
+  color: #2c3e50;
+}
+
+.title-section p {
+  margin: 0.5rem 0 0 0;
+  color: #7f8c8d;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.create-btn {
+  background: #3498db;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.create-btn:hover {
+  background: #2980b9;
+}
+
+.week-nav {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.nav-btn {
+  background: #ecf0f1;
+  border: 1px solid #bdc3c7;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.nav-btn:hover:not(:disabled) {
+  background: #d5dbdb;
+}
+
+.nav-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.week-range {
+  font-weight: 500;
+  color: #2c3e50;
+}
+
+.feedback {
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+  background: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+/* Compact Calendar */
+.compact-calendar {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+
+.calendar-header {
+  display: grid;
+  grid-template-columns: 80px repeat(7, 1fr);
+  background: #34495e;
+  color: white;
+  font-weight: 600;
+}
+
+.time-col, .day-col {
+  padding: 1rem 0.5rem;
+  text-align: center;
+  border-right: 1px solid #2c3e50;
+}
+
+.day-col:last-child {
+  border-right: none;
+}
+
+.calendar-row {
+  display: grid;
+  grid-template-columns: 80px repeat(7, 1fr);
+  border-bottom: 1px solid #ecf0f1;
+}
+
+.calendar-row:last-child {
+  border-bottom: none;
+}
+
+.time-cell {
+  padding: 0.75rem 0.5rem;
+  text-align: center;
+  background: #f8f9fa;
+  font-weight: 500;
+  color: #495057;
+  border-right: 1px solid #dee2e6;
+}
+
+.slot-cell {
+  padding: 0.25rem;
+  border-right: 1px solid #ecf0f1;
+  min-height: 60px;
+  position: relative;
+}
+
+.slot-cell:last-child {
+  border-right: none;
+}
+
+.class-block {
+  background: #3498db;
+  color: white;
+  padding: 0.5rem;
+  border-radius: 4px;
+  margin-bottom: 0.25rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.class-block:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.class-block.enrolled {
+  background: #27ae60;
+}
+
+.class-block.full {
+  background: #e74c3c;
+}
+
+.class-name {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.class-type {
+  font-size: 0.7rem;
+  opacity: 0.9;
+  margin-bottom: 0.25rem;
+}
+
+.class-capacity {
+  font-size: 0.7rem;
+  opacity: 0.8;
+}
+
+.enroll-btn {
+  background: rgba(255,255,255,0.2);
+  border: 1px solid rgba(255,255,255,0.3);
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 3px;
+  font-size: 0.7rem;
+  cursor: pointer;
+  margin-top: 0.25rem;
+}
+
+.enroll-btn:hover {
+  background: rgba(255,255,255,0.3);
+}
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal h2 {
+  margin: 0 0 1.5rem 0;
+  color: #2c3e50;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #2c3e50;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #bdc3c7;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 1.5rem;
+}
+
+.form-actions button {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.form-actions button[type="button"] {
+  background: #95a5a6;
+  color: white;
+}
+
+.form-actions button[type="submit"] {
+  background: #3498db;
+  color: white;
+}
+
+.form-actions button:hover {
+  opacity: 0.9;
+}
