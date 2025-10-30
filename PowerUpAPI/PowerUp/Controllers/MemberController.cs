@@ -200,7 +200,7 @@ public class MemberController : ControllerBase
         return NoContent();
     }
 
-    // Delete member (soft delete via User)
+    // Delete member
     [HttpDelete("{id}")]
     [Authorize(Policy = "AdminOnly")]
     public async Task<IActionResult> DeleteMember(Guid id)
@@ -214,7 +214,7 @@ public class MemberController : ControllerBase
             return NotFound();
         }
 
-        // Soft delete the user (which will affect the member)
+        // Soft delete the user
         member.User!.IsDeleted = true;
         member.User.DeletedAt = DateTime.UtcNow;
         member.UpdatedAt = DateTime.UtcNow;
