@@ -1,0 +1,86 @@
+<app-nav></app-nav>
+<section class="membership-page">
+  <header class="membership-header">
+    <h1>Membership Plans</h1>
+    <p>Choose the perfect plan for your fitness journey</p>
+  </header>
+
+  @if (feedback()) {
+    <div class="feedback">{{ feedback() }}</div>
+  }
+
+  <div class="subscriptions-grid">
+    @for (subscription of subscriptions(); track subscription.id) {
+      <div class="subscription-card" [class.active]="isSubscribedTo(subscription.id)">
+        <div class="card-header">
+          <h3>{{ getTypeDisplay(subscription.type) }}</h3>
+          @if (isSubscribedTo(subscription.id)) {
+            <span class="badge">Active</span>
+          } @else if (subscription.type === 'Yearly') {
+            <span class="badge popular">Most Popular</span>
+          }
+        </div>
+        
+        <div class="card-body">
+          <div class="price">
+            {{ formatPrice(subscription.totalPrice) }}
+          </div>
+          <div class="price-per-month">
+            {{ getPricePerMonth(subscription.type, subscription.totalPrice) }}
+          </div>
+          
+          <div class="duration">
+            <strong>Duration:</strong> {{ getDuration(subscription.type) }}
+          </div>
+
+          <div class="features">
+            <ul>
+              <li>✓ Unlimited gym access</li>
+              <li>✓ All group classes included</li>
+              <li>✓ Personal training sessions</li>
+              <li>✓ Locker access</li>
+              @if (subscription.type === 'Yearly') {
+                <li>✓ <strong>2 months free</strong></li>
+              }
+              @if (subscription.type === 'Semestral') {
+                <li>✓ <strong>1 month free</strong></li>
+              }
+            </ul>
+          </div>
+
+          @if (isSubscribedTo(subscription.id)) {
+            <button 
+              class="cancel-btn"
+              [disabled]="isLoading()"
+              (click)="cancelSubscription()">
+              @if (isLoading()) {
+                Cancelling...
+              } @else {
+                Cancel Subscription
+              }
+            </button>
+          } @else {
+            <button 
+              class="subscribe-btn"
+              [disabled]="isLoading() || hasActiveSubscription()"
+              (click)="subscribe(subscription.id)">
+              @if (isLoading()) {
+                Subscribing...
+              } @else if (hasActiveSubscription()) {
+                Already Subscribed
+              } @else {
+                Subscribe Now
+              }
+            </button>
+          }
+        </div>
+      </div>
+    }
+  </div>
+
+  @if (subscriptions().length === 0) {
+    <div class="empty-state">
+      <p>No membership plans available at the moment.</p>
+    </div>
+  }
+</section>
