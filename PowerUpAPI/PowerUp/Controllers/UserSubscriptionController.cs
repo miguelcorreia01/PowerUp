@@ -139,6 +139,33 @@ public class UserSubscriptionController : ControllerBase
         return NoContent();
     }
 
+    
+    // Cancel subscription
+    [Authorize(Roles = "User")]
+    [HttpPost("cancel")]
+    public async Task<IActionResult> CancelSubscription()
+    {
+    var userIdStr = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? User.FindFirst("id")?.Value;
+    if (string.IsNullOrWhiteSpace(userIdStr) || !Guid.TryParse(userIdStr, out var userId))
+    {
+        return Unauthorized("Invalid user.");
+    }
+
+    var userSubscription = await _context.UserSubscriptions
+        .FirstOrDefaultAsync(us => us.UserId == userId && us.IsActive && !us.IsDeleted);
+    
+    if (userSubscription == null)
+    {
+        return NotFound("No active subscription found.");
+    }
+
+    userSubscription.IsActive = false;
+    userSubscription.UpdatedAt = DateTime.UtcNow;
+    await _context.SaveChangesAsync();
+
+    return Ok(new { message = "Subscription cancelled successfully" });
+}
+
     // Delete user subscription
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteUserSubscription(Guid id)
