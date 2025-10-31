@@ -11,6 +11,8 @@ public class UserSubscription
     public DateTime EndDate { get; set; }
     public bool IsActive { get; set; } = true;
     public bool IsDeleted { get; set; } = false;
+    public DateTime CreatedAt { get; set; }
+    public DateTime UpdatedAt { get; set; }
     public DateTime? DeletedAt { get; set; }
 
     public ICollection<Payment> Payments { get; set; } = new List<Payment>();

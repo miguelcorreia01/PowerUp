@@ -22,7 +22,9 @@ public class SubscriptionsController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Subscription>>> GetSubscriptions()
     {
-        return await _context.Subscriptions.ToListAsync();
+        return await _context.Subscriptions
+            .Where(s => !s.IsDeleted)
+            .ToListAsync();
     }
 
     // GET subscription by id
