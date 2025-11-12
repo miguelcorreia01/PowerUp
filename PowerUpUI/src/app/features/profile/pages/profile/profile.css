@@ -1,0 +1,157 @@
+.profile-page {
+  padding: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.profile-header {
+  margin-bottom: 2rem;
+}
+
+.profile-header h1 {
+  margin: 0;
+  font-size: 2rem;
+  color: #2c3e50;
+}
+
+.profile-card {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: grid;
+  place-items: center;
+  color: white;
+  font-size: 3rem;
+  font-weight: 600;
+}
+
+
+.info-row {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr 0.8fr;
+  align-items: start;
+  gap: 1rem; 
+}
+
+.info-left h2 {
+  margin: 0;
+  font-size: 1.75rem;
+  color: #2c3e50;
+}
+
+.info-left .email {
+  margin: 0.3rem 0;
+  color: #7f8c8d;
+}
+
+.role {
+  display: inline-block;
+  margin-top: 0.3rem;
+  padding: 0.25rem 0.75rem;
+  background: rgba(102, 126, 234, 0.15);
+  color: #4263eb;
+  border-radius: 999px;
+  font-size: 0.85rem;
+}
+
+.info-center,
+.info-right {
+  text-align: right;
+}
+
+.info-center strong,
+.info-right strong {
+  display: block;
+  color: #2c3e50;
+  margin-bottom: 0.15rem;
+  font-size: 0.9rem;
+}
+
+.info-center span,
+.info-right span {
+  color: #7f8c8d;
+  font-size: 0.9rem;
+}
+
+.actions {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.actions button {
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.actions button:first-child {
+  background: #4c6ef5;
+  color: white;
+}
+
+.actions button:first-child:hover {
+  background: #3b5bdb;
+}
+
+.actions button.secondary {
+  background: #e9ecef;
+  color: #343a40;
+}
+
+.actions button.secondary:hover {
+  background: #dee2e6;
+}
+
+
+.empty-state {
+  text-align: center;
+  padding: 3rem;
+  background: white;
+  border-radius: 16px;
+  color: #7f8c8d;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .profile-card {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .avatar {
+    margin: 0 auto;
+  }
+
+  .info-row {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 0.75rem;
+  }
+
+  .info-center,
+  .info-right {
+    text-align: center;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+}

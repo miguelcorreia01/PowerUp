@@ -1,0 +1,42 @@
+<app-nav></app-nav>
+<section class="profile-page">
+  <header class="profile-header">
+    <h1>Your Profile</h1>
+    <p>Manage your account details.</p>
+  </header>
+
+  @if (user()) {
+    <div class="profile-card">
+      <div class="avatar">
+        <span>{{ user()?.name?.[0] ?? '?' }}</span>
+      </div>
+
+      <div class="info-row">
+        <div class="info-left">
+          <h2>{{ user()?.name }}</h2>
+          <p class="email">{{ user()?.email }}</p>
+          <span class="role">{{ getRoleLabel(user()?.role) }}</span>
+        </div>
+
+        <div class="info-center">
+          <strong>Phone</strong>
+          <span>{{ user()?.phoneNumber || 'Not provided' }}</span>
+        </div>
+
+        <div class="info-right">
+          <strong>Member Since</strong>
+          <span>{{ user()?.createdAt | date:'mediumDate' }}</span>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button>Edit Profile</button>
+        <button class="secondary">Change Password</button>
+      </div>
+    </div>
+  } @else {
+    <div class="empty-state">
+      <p>We couldn’t load your profile. Please try again later.</p>
+    </div>
+  }
+</section>
