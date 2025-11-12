@@ -6,39 +6,16 @@
   </div>
 
   <div class="navbar-nav">
-    <a
-      routerLink="/dashboard"
-      routerLinkActive="active"
-      [routerLinkActiveOptions]="{ exact: true }"
-      class="nav-link"
-    >
+    <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="nav-link">
       Dashboard
     </a>
-
-    <a
-      routerLink="/personal-training"
-      routerLinkActive="active"
-      [routerLinkActiveOptions]="{ exact: true }"
-      class="nav-link"
-    >
+    <a routerLink="/personal-training" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="nav-link">
       Personal Training
     </a>
-
-    <a
-      routerLink="/group-classes"
-      routerLinkActive="active"
-      [routerLinkActiveOptions]="{ exact: true }"
-      class="nav-link"
-    >
+    <a routerLink="/group-classes" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="nav-link">
       Group Classes
     </a>
-
-    <a
-      routerLink="/membership"
-      routerLinkActive="active"
-      [routerLinkActiveOptions]="{ exact: true }"
-      class="nav-link"
-    >
+    <a routerLink="/membership" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="nav-link">
       Membership
     </a>
   </div>
@@ -47,8 +24,18 @@
     <button class="icon-btn">
       <img src="assets/images/notification.png" class="icon" />
     </button>
-    <button class="icon-btn">
-      <img src="assets/images/user.png" class="icon" />
-    </button>
+
+    <div class="user-menu" (click)="$event.stopPropagation()">
+     <button class="icon-btn user-btn" type="button" (click)="toggleUserMenu($event)">
+         <img src="assets/images/user.png" class="icon" />
+       </button>
+
+    @if (userMenuOpen()) {
+        <div class="user-dropdown">
+          <a routerLink="/profile" (click)="profile()">Profile</a>
+          <button type="button" (click)="logout()">Logout</button>
+        </div>
+      }
+    </div>
   </div>
 </nav>

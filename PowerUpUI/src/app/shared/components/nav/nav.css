@@ -85,3 +85,62 @@
 .icon {
   font-size: 1.25rem;
 }
+
+.navbar-actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.user-menu {
+  position: relative;
+}
+
+.user-btn {
+  border: 1px solid transparent;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.user-btn:focus-visible {
+  outline: none;
+  border-color: #667eea;
+  background-color: #f0f4ff;
+}
+
+.user-dropdown {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.18);
+  min-width: 160px;
+  padding: 0.5rem 0;
+  display: flex;
+  flex-direction: column;
+  z-index: 200;
+}
+
+.user-dropdown a,
+.user-dropdown button {
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+  padding: 0.75rem 1rem;
+  font-size: 0.95rem;
+  color: #374151;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.user-dropdown a:hover,
+.user-dropdown button:hover {
+  background-color: #f3f4f6;
+  color: #111827;
+}
+
+.user-dropdown button {
+  font-weight: 500;
+}
