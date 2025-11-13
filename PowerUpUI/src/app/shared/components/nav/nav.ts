@@ -1,8 +1,8 @@
-import { Component, ChangeDetectionStrategy, HostListener, inject, signal, ElementRef } from '@angular/core';
+import { Component, ChangeDetectionStrategy, HostListener, inject, signal, ElementRef, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-
+import { toSignal } from '@angular/core/rxjs-interop'
 import { AuthService } from '../../../core/auth/auth.service';
 
 @Component({
@@ -19,7 +19,35 @@ export class Nav {
   private readonly host = inject(ElementRef<HTMLElement>);
   
   
-userMenuOpen = signal(false);
+private readonly currentUser = toSignal(this.auth.currentUser$, { initialValue: null });
+
+  userMenuOpen = signal(false);
+
+  navLinks = computed(() => {
+    const role = (this.currentUser()?.role ?? '').toLowerCase();
+
+    if (role === 'admin') {
+      return [
+       { label: 'Dashboard', path: '/admin-dashboard' },
+        { label: 'Users', path: '/admin/users' },
+        { label: 'Memberships', path: '/admin/memberships' },
+      ];
+    }
+
+    if (role === 'instructor') {
+      return [
+        { label: 'Dashboard', path: '/dashboard' },
+       { label: 'Personal Training', path: '/personal-training' },
+        { label: 'Group Classes', path: '/group-classes' },
+     ];
+   }
+    return [
+      { label: 'Dashboard', path: '/dashboard' },
+      { label: 'Personal Training', path: '/personal-training' },
+      { label: 'Group Classes', path: '/group-classes' },
+      { label: 'Membership', path: '/membership' },
+    ];
+  });
 
  toggleUserMenu(event: MouseEvent): void {
      event.stopPropagation();

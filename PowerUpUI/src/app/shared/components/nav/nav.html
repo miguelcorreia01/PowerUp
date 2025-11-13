@@ -6,18 +6,16 @@
   </div>
 
   <div class="navbar-nav">
-    <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="nav-link">
-      Dashboard
-    </a>
-    <a routerLink="/personal-training" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="nav-link">
-      Personal Training
-    </a>
-    <a routerLink="/group-classes" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="nav-link">
-      Group Classes
-    </a>
-    <a routerLink="/membership" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="nav-link">
-      Membership
-    </a>
+    @for (link of navLinks(); track link.path) {
+      <a
+        [routerLink]="link.path"
+       routerLinkActive="active"
+       [routerLinkActiveOptions]="{ exact: true }"
+        class="nav-link"
+      >
+        {{ link.label }}
+      </a>
+    }
   </div>
 
   <div class="navbar-actions">
