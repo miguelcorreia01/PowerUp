@@ -37,10 +37,15 @@ export class Login {
       email: email ?? '',
       password: password ?? ''
     }).toPromise();
-    this.router.navigate(['/dashboard']); 
-  } catch {
-    this.errorMessage.set('Invalid email or password.');
-  } finally {
+       const role = this.auth.getRole();
+    if (role === 'Admin') {
+      this.router.navigate(['/admin-dashboard']);
+    } else {
+      this.router.navigate(['/dashboard']);
+    }
+   } catch {
+     this.errorMessage.set('Invalid email or password.');
+   } finally {
     this.isLoading.set(false);
   }
 }
