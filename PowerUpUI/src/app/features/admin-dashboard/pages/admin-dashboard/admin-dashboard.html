@@ -1,0 +1,24 @@
+<app-nav></app-nav>
+
+<section class="admin-dashboard">
+  <header class="dashboard-header">
+    <h1>Admin Dashboard</h1>
+    <p>Key metrics for managing the PowerUp platform.</p>
+  </header>
+
+  @if (!summary()) {
+    <div class="empty-state">Loading dashboard data...</div>
+  } @else {
+    <div class="stats-grid">
+      @for (card of cards; track card.label) {
+        <div class="stat-card">
+          <h3>{{ card.label }}</h3>
+          <div class="value">{{ card.value() }}</div>
+          @if (card.secondary) {
+            <div class="secondary">{{ card.secondary() }}</div>
+          }
+        </div>
+      }
+    </div>
+  }
+</section>

@@ -1,0 +1,68 @@
+.admin-dashboard {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.dashboard-header {
+  margin-bottom: 2rem;
+}
+
+.dashboard-header h1 {
+  margin: 0;
+  font-size: 2rem;
+  color: #1f2937;
+}
+
+.dashboard-header p {
+  margin: 0.5rem 0 0;
+  color: #6b7280;
+}
+
+.stats-grid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.stat-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 10px 30px -15px rgba(15, 23, 42, 0.25);
+  border: 1px solid rgba(15, 23, 42, 0.05);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px -20px rgba(15, 23, 42, 0.3);
+}
+
+.stat-card h3 {
+  margin: 0 0 0.75rem;
+  font-size: 1rem;
+  color: #4b5563;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.stat-card .value {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.stat-card .secondary {
+  margin-top: 0.75rem;
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
+.empty-state {
+  padding: 3rem;
+  text-align: center;
+  background: #f9fafb;
+  border-radius: 12px;
+  color: #6b7280;
+}

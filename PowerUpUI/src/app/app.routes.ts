@@ -6,6 +6,7 @@ import { PersonalTraining } from './features/personal-training/pages/personal-tr
 import { GroupClasses } from './features/group-classes/pages/group-classes/group-classes';
 import { Membership } from './features/membership/pages/membership/membership';
 import { Profile } from './features/profile/pages/profile/profile';
+import { AdminDashboard } from './features/admin-dashboard/pages/admin-dashboard/admin-dashboard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -15,5 +16,6 @@ export const routes: Routes = [
   { path: 'personal-training', component: PersonalTraining },
   { path: 'group-classes', component: GroupClasses },
   { path: 'membership', component: Membership },
-  { path: 'profile', component: Profile }
+  { path: 'profile', component: Profile },
+  {path: 'admin-dashboard', component: AdminDashboard }
 ];
