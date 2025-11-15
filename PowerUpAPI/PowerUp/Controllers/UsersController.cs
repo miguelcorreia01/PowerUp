@@ -19,7 +19,6 @@ public class UsersController : ControllerBase
         _context = context;
     }
 
-    // Only admins can get all users
     [HttpGet]
     [Authorize(Policy = "AdminOnly")]
     public async Task<ActionResult<IEnumerable<User>>> GetUsers()
@@ -41,14 +40,13 @@ public class UsersController : ControllerBase
             .ToListAsync();
     }
 
-    // Users can get their own profile, admins can get any profile
+
     [HttpGet("{id}")]
     public async Task<ActionResult<User>> GetUser(Guid id)
     {
         var currentUserId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "");
         var currentUserRole = User.FindFirst(ClaimTypes.Role)?.Value;
 
-        // Users can only access their own profile unless they're admin
         if (currentUserId != id && currentUserRole != "Admin")
         {
             return Forbid();
@@ -65,7 +63,6 @@ public class UsersController : ControllerBase
         return user;
     }
 
-    // Only admins can create users directly
     [HttpPost]
     [Authorize(Policy = "AdminOnly")]
     public async Task<ActionResult<User>> CreateUser(User user)
@@ -77,7 +74,6 @@ public class UsersController : ControllerBase
         return CreatedAtAction(nameof(GetUser), new { id = user.Id }, user);
     }
 
-    // Users can update their own profile, admins can update any profile
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateUser(Guid id, User user)
     {
@@ -141,8 +137,31 @@ public class UsersController : ControllerBase
         return Ok(distribution);
     }
 
+    [Authorize(Roles = "Admin")]
+    [HttpPut("{id}/role")]
+    public async Task<IActionResult> UpdateUserRole(Guid id, [FromBody] UpdateRoleRequest request)
+    {
+        var user = await _context.Users.FindAsync(id);
+        if (user == null || user.IsDeleted)
+        {
+            return NotFound();
+        }
 
-    //delete users (admins only, soft delete)
+
+        if (!Enum.TryParse<UserRole>(request.Role, out var newRole))
+        {
+            return BadRequest(new { message = "Invalid role" });
+        }
+
+        user.Role = newRole;
+        user.IsAdmin = (newRole == UserRole.Admin);
+        user.UpdatedAt = DateTime.UtcNow;
+        
+        await _context.SaveChangesAsync();
+        return Ok(new { message = "Role updated successfully" });
+    }
+
+
     [HttpDelete("{id}")]
     [Authorize(Policy = "AdminOnly")]
     public async Task<IActionResult> DeleteUser(Guid id)
