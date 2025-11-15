@@ -1,9 +1,15 @@
 <app-nav></app-nav>
 <section class="profile-page">
   <header class="profile-header">
-    <h1>Your Profile</h1>
-    <p>Manage your account details.</p>
+    <h1>@if (isAdminViewingOtherUser()) { User Profile } @else { Your Profile }</h1>
+    <p>@if (isAdminViewingOtherUser()) { View and manage user account. } @else { Manage your account details. }</p>
   </header>
+
+  @if (feedback()) {
+    <div class="feedback-message" [class.error]="feedback()?.includes('Failed')">
+      {{ feedback() }}
+    </div>
+  }
 
   @if (user()) {
     <div class="profile-card">
@@ -15,8 +21,12 @@
         <div class="info-left">
           <h2>{{ user()?.name }}</h2>
           <p class="email">{{ user()?.email }}</p>
-          <span class="role">{{ getRoleLabel(user()?.role) }}</span>
-        </div>
+          <span class="role" 
+                [class.admin]="user()?.role === 'Admin'"
+                [class.instructor]="user()?.role === 'Instructor'">
+            {{ getRoleLabel(user()?.role) }}
+          </span>
+          </div>
 
         <div class="info-center">
           <strong>Phone</strong>
@@ -28,15 +38,47 @@
           <span>{{ user()?.createdAt | date:'mediumDate' }}</span>
         </div>
       </div>
-
-      <div class="actions">
-        <button>Edit Profile</button>
-        <button class="secondary">Change Password</button>
-      </div>
+      @if (isAdminViewingOtherUser()) {
+        <!-- Admin viewing another user: Show role change -->
+        <div class="admin-actions">
+          <div class="role-change-section">
+          <label for="role-select">Change User Role:</label>
+          <select 
+            id="role-select"
+            (change)="onRoleChange($any($event.target).value)"
+            [disabled]="isUpdatingRole()"
+            class="role-select">
+            @for (role of getAvailableRoles(); track role) {
+              <option 
+                [value]="role"
+                [selected]="(pendingRoleChange() ?? user()?.role) === role">
+                {{ getRoleLabel(role) }}
+              </option>
+            }
+          </select>
+            <button 
+              (click)="updateRole()" 
+              [disabled]="isUpdatingRole() || selectedRole() === user()?.role"
+              class="update-role-btn">
+              @if (isUpdatingRole()) {
+                Updating...
+              } @else {
+                Update Role
+              }
+            </button>
+          </div>
+        </div>
+      } @else {
+        <!-- User viewing own profile: Show edit buttons -->
+        <div class="actions">
+          <button>Edit Profile</button>
+          <button class="secondary">Change Password</button>
+        </div>
+      }
     </div>
   } @else {
     <div class="empty-state">
-      <p>We couldn’t load your profile. Please try again later.</p>
+      <p>We couldn't load the profile. Please try again later.</p>
     </div>
   }
 </section>
