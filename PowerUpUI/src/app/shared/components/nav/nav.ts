@@ -29,7 +29,7 @@ private readonly currentUser = toSignal(this.auth.currentUser$, { initialValue: 
     if (role === 'admin') {
       return [
        { label: 'Dashboard', path: '/admin-dashboard' },
-        { label: 'Users', path: '/admin/users' },
+        { label: 'Users', path: '/users' },
         { label: 'Memberships', path: '/admin/memberships' },
       ];
     }
