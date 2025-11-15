@@ -7,6 +7,7 @@ import { GroupClasses } from './features/group-classes/pages/group-classes/group
 import { Membership } from './features/membership/pages/membership/membership';
 import { Profile } from './features/profile/pages/profile/profile';
 import { AdminDashboard } from './features/admin-dashboard/pages/admin-dashboard/admin-dashboard';
+import { Users } from './features/users/pages/users/users';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -17,5 +18,7 @@ export const routes: Routes = [
   { path: 'group-classes', component: GroupClasses },
   { path: 'membership', component: Membership },
   { path: 'profile', component: Profile },
-  {path: 'admin-dashboard', component: AdminDashboard }
+  { path: 'profile/:id', component: Profile },
+  {path: 'admin-dashboard', component: AdminDashboard },
+  {path: 'users', component: Users }
 ];
