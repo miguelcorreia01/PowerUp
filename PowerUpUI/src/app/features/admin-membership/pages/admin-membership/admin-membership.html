@@ -1,0 +1,141 @@
+<app-nav></app-nav>
+<section class="admin-memberships-page">
+  <header class="page-header">
+    <h1>Manage Memberships</h1>
+    <button class="btn-primary" (click)="openCreateModal()" [disabled]="isLoading()">
+      + Create Membership
+    </button>
+  </header>
+
+  @if (feedback()) {
+    <div class="feedback">{{ feedback() }}</div>
+  }
+
+  <div class="memberships-table">
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Price</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (subscription of filteredSubscriptions(); track subscription.id) {
+          <tr [class.deleted]="subscription.isDeleted">
+            <td>{{ getTypeDisplay(subscription.type) }}</td>
+            <td>{{ formatPrice(subscription.totalPrice) }}</td>
+            <td>
+              @if (subscription.isDeleted) {
+                <span class="badge deleted">Deleted</span>
+              } @else {
+                <span class="badge active">Active</span>
+              }
+            </td>
+            <td class="actions">
+              @if (!subscription.isDeleted) {
+                <button class="btn-edit" (click)="openEditModal(subscription)">Edit</button>
+                <button class="btn-delete" (click)="deleteSubscription(subscription)" [disabled]="isLoading()">
+                  Delete
+                </button>
+              }
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="4" class="empty-state">No memberships found</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Create Modal -->
+@if (showCreateModal()) {
+  <div class="modal-overlay" (click)="closeModals()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <h2>Create Membership</h2>
+      
+      @if (feedback()) {
+        <div class="feedback feedback-error">{{ feedback() }}</div>
+      }
+      
+      <form (ngSubmit)="createSubscription()">
+        <div class="form-group">
+          <label>Type</label>
+          <select [(ngModel)]="formData().type" name="type" required>
+            <option value="Monthly">Monthly</option>
+            <option value="Semestral">Semestral (6 months)</option>
+            <option value="Yearly">Yearly</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Total Price ($)</label>
+          <input 
+            type="number" 
+            [(ngModel)]="formData().totalPrice" 
+            name="totalPrice" 
+            step="0.01" 
+            min="0" 
+            required
+          />
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" (click)="closeModals()">Cancel</button>
+          <button type="submit" class="btn-primary" [disabled]="isLoading()">
+            @if (isLoading()) {
+              Creating...
+            } @else {
+              Create
+            }
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+}
+
+  <!-- Edit Modal -->
+  @if (showEditModal()) {
+    <div class="modal-overlay" (click)="closeModals()">
+      <div class="modal-content" (click)="$event.stopPropagation()">
+        <h2>Edit Membership</h2>
+        @if (feedback()) {
+        <div class="feedback feedback-error">{{ feedback() }}</div>
+      }
+        <form (ngSubmit)="updateSubscription()">
+          <div class="form-group">
+            <label>Type</label>
+            <select [(ngModel)]="formData().type" name="type" required>
+              <option value="Monthly">Monthly</option>
+              <option value="Semestral">Semestral (6 months)</option>
+              <option value="Yearly">Yearly</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Total Price ($)</label>
+            <input 
+              type="number" 
+              [(ngModel)]="formData().totalPrice" 
+              name="totalPrice" 
+              step="0.01" 
+              min="0" 
+              required
+            />
+          </div>
+          <div class="modal-actions">
+            <button type="button" class="btn-secondary" (click)="closeModals()">Cancel</button>
+            <button type="submit" class="btn-primary" [disabled]="isLoading()">
+              @if (isLoading()) {
+                Updating...
+              } @else {
+                Update
+              }
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  }
+</section>
