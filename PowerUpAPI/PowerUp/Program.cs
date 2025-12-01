@@ -5,6 +5,9 @@ using PowerUp.Data;
 using PowerUp.Services;
 using System.Text;
 using dotenv.net;   
+using System.Text.Json;
+using System.Text.Json.Serialization;
+
 
 
     var builder = WebApplication.CreateBuilder(args);
@@ -13,7 +16,12 @@ using dotenv.net;
     DotEnv.Load();
 
     // Add services to the container
-    builder.Services.AddControllers();
+    builder.Services.AddControllers()
+        .AddJsonOptions(options =>
+        {
+            options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+            options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
+        });
 
     // Add Entity Framework
     builder.Services.AddDbContext<PowerUpDbContext>(options =>
