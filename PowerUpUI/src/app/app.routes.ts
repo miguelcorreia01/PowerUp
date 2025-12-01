@@ -8,6 +8,7 @@ import { Membership } from './features/membership/pages/membership/membership';
 import { Profile } from './features/profile/pages/profile/profile';
 import { AdminDashboard } from './features/admin-dashboard/pages/admin-dashboard/admin-dashboard';
 import { Users } from './features/users/pages/users/users';
+import { AdminMembership } from './features/admin-membership/pages/admin-membership/admin-membership';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -20,5 +21,6 @@ export const routes: Routes = [
   { path: 'profile', component: Profile },
   { path: 'profile/:id', component: Profile },
   {path: 'admin-dashboard', component: AdminDashboard },
-  {path: 'users', component: Users }
+  {path: 'users', component: Users },
+  {path: 'admin-membership', component: AdminMembership }
 ];
