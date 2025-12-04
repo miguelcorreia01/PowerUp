@@ -12,12 +12,6 @@
 .membership-header h1 {
   font-size: 2.5rem;
   color: #2c3e50;
-  margin: 0 0 0.5rem 0;
-}
-
-.membership-header p {
-  font-size: 1.2rem;
-  color: #7f8c8d;
   margin: 0;
 }
 
@@ -30,111 +24,57 @@
   border: 1px solid #c3e6cb;
 }
 
-.current-subscription {
-  margin-bottom: 3rem;
-}
-
-.current-subscription h2 {
-  margin-bottom: 1rem;
-  color: #2c3e50;
-}
-
 .subscriptions-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
   margin-top: 2rem;
 }
 
 .subscription-card {
   background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 2rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
 .subscription-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-color: #3498db;
 }
 
 .subscription-card.active {
-  border: 2px solid #27ae60;
+  border-color: #27ae60;
+  background: #f8fff9;
 }
 
-.card-header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  padding: 1.5rem;
+.card-content {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
+  gap: 1.5rem;
 }
 
-.card-header h3 {
+.subscription-type {
   margin: 0;
   font-size: 1.5rem;
-}
-
-.badge {
-  background: rgba(255, 255, 255, 0.2);
-  padding: 0.25rem 0.75rem;
-  border-radius: 12px;
-  font-size: 0.8rem;
+  color: #2c3e50;
   font-weight: 600;
+  text-align: center;
 }
 
-.badge.popular {
-  background: #f39c12;
-}
-
-.card-body {
-  padding: 2rem;
-}
-
-.price {
+.subscription-price {
   font-size: 2.5rem;
   font-weight: 700;
   color: #2c3e50;
-  margin-bottom: 0.5rem;
-}
-
-.price-per-month {
-  color: #7f8c8d;
-  font-size: 0.9rem;
-  margin-bottom: 1.5rem;
-}
-
-.duration {
-  margin-bottom: 1.5rem;
-  color: #34495e;
-  font-size: 0.95rem;
-}
-
-.features {
-  margin-bottom: 2rem;
-}
-
-.features ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.features li {
-  padding: 0.5rem 0;
-  color: #2c3e50;
-  border-bottom: 1px solid #ecf0f1;
-}
-
-.features li:last-child {
-  border-bottom: none;
+  text-align: center;
 }
 
 .subscribe-btn {
   width: 100%;
-  padding: 1rem;
+  padding: 0.875rem 1.5rem;
   background: #3498db;
   color: white;
   border: none;
@@ -154,30 +94,17 @@
   cursor: not-allowed;
 }
 
-.empty-state {
-  text-align: center;
-  padding: 3rem;
-  color: #7f8c8d;
-}
-
-@media (max-width: 768px) {
-  .subscriptions-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
 .cancel-btn {
   width: 100%;
-  padding: 0.75rem;
+  padding: 0.875rem 1.5rem;
   background: #e74c3c;
   color: white;
   border: none;
   border-radius: 6px;
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
   transition: background 0.3s ease;
-  margin-top: 1rem;
 }
 
 .cancel-btn:hover:not(:disabled) {
@@ -187,4 +114,21 @@
 .cancel-btn:disabled {
   background: #95a5a6;
   cursor: not-allowed;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 3rem;
+  color: #7f8c8d;
+  font-size: 1.1rem;
+}
+
+@media (max-width: 768px) {
+  .subscriptions-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .membership-page {
+    padding: 1rem;
+  }
 }
