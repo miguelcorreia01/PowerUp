@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PowerUp.Data;
 
@@ -11,9 +12,11 @@ using PowerUp.Data;
 namespace PowerUp.Migrations
 {
     [DbContext(typeof(PowerUpDbContext))]
-    partial class PowerUpDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251203234548_AddUserSubscriptionTimestamps")]
+    partial class AddUserSubscriptionTimestamps
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
