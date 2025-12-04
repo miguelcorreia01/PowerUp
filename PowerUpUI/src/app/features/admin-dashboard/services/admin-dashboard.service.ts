@@ -9,10 +9,12 @@ export interface AdminDashboardSummary {
   newUsersLast30Days: number;
   activeSubscriptions: number;
   monthlyRevenue: number;
-  topMembership: string | null;
-  topMembershipSubscriptions: number;
-  upcomingGroupClasses: number;
-  personalTrainingSessionsNext7Days: number;
+}
+
+export interface MonthlyDataPoint {
+  year: number;
+  month: number;
+  value: number;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -22,5 +24,13 @@ export class AdminDashboardService {
 
   getOverview(): Observable<AdminDashboardSummary> {
     return this.http.get<AdminDashboardSummary>(`${this.baseUrl}/overview`);
+  }
+
+  getUsersByMonth(): Observable<MonthlyDataPoint[]> {
+    return this.http.get<MonthlyDataPoint[]>(`${this.baseUrl}/users-by-month`);
+  }
+
+  getRevenueByMonth(): Observable<MonthlyDataPoint[]> {
+    return this.http.get<MonthlyDataPoint[]>(`${this.baseUrl}/revenue-by-month`);
   }
 }
