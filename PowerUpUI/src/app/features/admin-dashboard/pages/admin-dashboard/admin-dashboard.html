@@ -14,11 +14,17 @@
         <div class="stat-card">
           <h3>{{ card.label }}</h3>
           <div class="value">{{ card.value() }}</div>
-          @if (card.secondary) {
-            <div class="secondary">{{ card.secondary() }}</div>
-          }
         </div>
       }
+    </div>
+
+    <div class="charts-container">
+      <div class="chart-card">
+        <canvas id="usersChart"></canvas>
+      </div>
+      <div class="chart-card">
+        <canvas id="revenueChart"></canvas>
+      </div>
     </div>
   }
 </section>

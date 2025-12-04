@@ -66,3 +66,32 @@
   border-radius: 12px;
   color: #6b7280;
 }
+
+.charts-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.chart-card {
+  background: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  height: 400px;
+}
+
+.chart-card canvas {
+  max-height: 100%;
+}
+
+@media (max-width: 768px) {
+  .charts-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .chart-card {
+    height: 300px;
+  }
+}
