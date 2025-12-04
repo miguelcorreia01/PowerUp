@@ -37,13 +37,17 @@ export class ProfileService {
   private readonly baseUrl = 'http://localhost:5255/api/users';
 
   // Map enum number to string
-  private mapRole(role: string | number | null | undefined, isAdmin?: boolean): string {
+ private mapRole(role: string | number | null | undefined, isAdmin?: boolean): string {
     if (isAdmin === true) {
       return 'Admin';
     }
     
     if (typeof role === 'string') {
-      return role;
+      const normalized = role.trim();
+      if (normalized.toLowerCase() === 'admin') return 'Admin';
+      if (normalized.toLowerCase() === 'instructor') return 'Instructor';
+      if (normalized.toLowerCase() === 'member') return 'Member';
+      return normalized;
     }
     
     if (typeof role === 'number') {
