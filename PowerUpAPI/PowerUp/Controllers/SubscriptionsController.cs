@@ -4,6 +4,7 @@ using PowerUp.Data;
 using PowerUp.Models;
 using PowerUp.Models.DTO;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace PowerUp.Controllers;
 
@@ -102,13 +103,21 @@ public class SubscriptionsController : ControllerBase
         return NoContent();
     }
 
-    [Authorize(Roles = "User")]
+  [Authorize(Roles = "Member")]
     [HttpGet("my")]
     public async Task<IActionResult> GetMySubscription()
     {
-        var userId = Guid.Parse(User.FindFirst("id").Value);
+        var userIdStr = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? User.FindFirst("id")?.Value;
+        if (string.IsNullOrWhiteSpace(userIdStr) || !Guid.TryParse(userIdStr, out var userId))
+        {
+            return Unauthorized("Invalid user.");
+        }
+        
         var subscription = await _context.UserSubscriptions
-            .FirstOrDefaultAsync(s => s.UserId == userId);
+            .Include(us => us.Subscription)
+            .Where(us => us.UserId == userId && us.IsActive && !us.IsDeleted)
+            .OrderByDescending(us => us.CreatedAt)
+            .FirstOrDefaultAsync();
 
         if (subscription == null) return NotFound();
         return Ok(subscription);
@@ -116,23 +125,29 @@ public class SubscriptionsController : ControllerBase
 
 
     // Delete subscription
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteSubscription(Guid id)
+    [Authorize(Roles = "Member")]
+    [HttpPost("cancel")]
+    public async Task<IActionResult> CancelSubscription()
     {
-        var subscription = await _context.Subscriptions.FindAsync(id);
-        if (subscription == null)
+        var userIdStr = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? User.FindFirst("id")?.Value;
+        if (string.IsNullOrWhiteSpace(userIdStr) || !Guid.TryParse(userIdStr, out var userId))
         {
-            return NotFound();
+            return Unauthorized("Invalid user.");
         }
 
-        // _context.Subscriptions.Remove(subscription);
-        subscription.IsDeleted = true;
-        subscription.DeletedAt = DateTime.UtcNow;
+        var userSubscription = await _context.UserSubscriptions
+            .FirstOrDefaultAsync(us => us.UserId == userId && us.IsActive && !us.IsDeleted);
+        
+        if (userSubscription == null)
+        {
+            return NotFound("No active subscription found.");
+        }
+
+        _context.UserSubscriptions.Remove(userSubscription);
         await _context.SaveChangesAsync();
 
-        return NoContent();
+        return Ok(new { message = "Subscription cancelled successfully" });
     }
-
     private bool SubscriptionExists(Guid id)
     {
         return _context.Subscriptions.Any(e => e.Id == id);
