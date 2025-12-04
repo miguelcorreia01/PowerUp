@@ -52,7 +52,7 @@ public class UserSubscriptionController : ControllerBase
 
 
  // Subscribe to a subscription plan
-    [Authorize(Roles = "User")]
+    [Authorize(Roles = "Member")]
     [HttpPost("subscribe")]
     public async Task<IActionResult> Subscribe([FromBody] SubscribeRequest request)
     {
@@ -141,30 +141,30 @@ public class UserSubscriptionController : ControllerBase
 
     
     // Cancel subscription
-    [Authorize(Roles = "User")]
+    [Authorize(Roles = "Member")]
     [HttpPost("cancel")]
     public async Task<IActionResult> CancelSubscription()
     {
-    var userIdStr = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? User.FindFirst("id")?.Value;
-    if (string.IsNullOrWhiteSpace(userIdStr) || !Guid.TryParse(userIdStr, out var userId))
-    {
-        return Unauthorized("Invalid user.");
+        var userIdStr = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? User.FindFirst("id")?.Value;
+        if (string.IsNullOrWhiteSpace(userIdStr) || !Guid.TryParse(userIdStr, out var userId))
+        {
+            return Unauthorized("Invalid user.");
+        }
+
+        var userSubscription = await _context.UserSubscriptions
+            .Include(us => us.Payments) 
+            .FirstOrDefaultAsync(us => us.UserId == userId && us.IsActive && !us.IsDeleted);
+        
+        if (userSubscription == null)
+        {
+            return NotFound("No active subscription found.");
+        }
+
+        _context.UserSubscriptions.Remove(userSubscription);
+        await _context.SaveChangesAsync();
+
+        return Ok(new { message = "Subscription cancelled successfully" });
     }
-
-    var userSubscription = await _context.UserSubscriptions
-        .FirstOrDefaultAsync(us => us.UserId == userId && us.IsActive && !us.IsDeleted);
-    
-    if (userSubscription == null)
-    {
-        return NotFound("No active subscription found.");
-    }
-
-    userSubscription.IsActive = false;
-    userSubscription.UpdatedAt = DateTime.UtcNow;
-    await _context.SaveChangesAsync();
-
-    return Ok(new { message = "Subscription cancelled successfully" });
-}
 
     // Delete user subscription
     [HttpDelete("{id}")]
